@@ -24,7 +24,7 @@ const App: FC = () => {
 
         let activeDistrict1: any = districts.find(district => district.name === data.district1);
         let activeDistrict2: any = districts.find(district => district.name === data.district2);
-        let activeDistricts = activeDistrict1.level > activeDistrict2.level ? [activeDistrict2, activeDistrict1] : [activeDistrict1, activeDistrict2];
+        let activeDistricts = activeDistrict1.level < activeDistrict2.level ? [activeDistrict2, activeDistrict1] : [activeDistrict1, activeDistrict2];
 
         const tempDistricts: District[] = [...districts];
 
@@ -60,7 +60,7 @@ const App: FC = () => {
 
         const minutes: number = new Date().getMinutes();
         const seconds: number = new Date().getSeconds();
-        if (minutes === 0 && seconds === 15) fetchDistricts();
+        if ((minutes === 1 || minutes === 2) && seconds === 0) fetchDistricts();
 
     }, 1000);
 
