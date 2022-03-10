@@ -3,6 +3,7 @@ import { districtObj } from './districts';
 import './index.css';
 import './fonts/runescape.ttf'
 import useInterval from './hooks/useInterval';
+import Color from 'color-thief-react';
 
 interface District {
     name: string;
@@ -74,17 +75,28 @@ const App: FC = () => {
         <>
             <div id='districts'>
                 {districts.map((district: District, idx: number) => (
-                    <div
-                        key={idx}
-                        className={`district-button ${district.disabled ? 'disabled' : ''}`}
-                        onClick={() => startDistrictTimer(district)}
-                    >
-                        <img src={`https://runescape.wiki/images/${district.name}_Clan.png`} alt={`${district.name} District`} />
-                        <span>{district.name}</span>
-                        <span>{district.CTS}</span>
-                        <span>{district.timeLeft}</span>
+                    <Color src={`https://runescape.wiki/images/${district.name}_Clan.png`} format="hex" crossOrigin='true'>
+                        {({ data, loading, error }) => (
+                            <div
+                                key={idx}
+                                className={`
+                                    district-button
+                                    ${district.disabled ? 'disabled' : ''}
+                                    ${idx < 2 ? 'seren-active' : ''}
+                                `}
+                                style={idx < 2 ? { boxShadow: `0px 0px 3px ${data}` } : {}}
+                                onClick={() => startDistrictTimer(district)}
+                            >
+                                <img src={`https://runescape.wiki/images/${district.name}_Clan.png`} alt={`${district.name} District`} />
+                                <div className="text">
+                                    <span className='name'>{district.name}</span>
+                                    <span className='cts'>{district.CTS}</span>
+                                    <span>{district.timeLeft}</span>
+                                </div>
 
-                    </div>
+                            </div>
+                        )}
+                    </Color>
                 ))}
             </div>
             {fetching && <div className="status"> Updating With New Districts </div>}

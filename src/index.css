@@ -9,7 +9,7 @@ html, body {
   width: 100%;
   height: 100%;
   margin: 0px;
-  background: #191A19;
+  background: #121113;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -19,34 +19,51 @@ html, body {
   display: flex;
   flex-flow: row wrap;
   justify-content: left;
-  margin-top: 20px;
-
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 
 .district-button {
-  padding: 12px;
+
+  padding: 11px;
   align-items: center;
-  width: 100px;
+  width: 95px;
   border-radius: var(--border-radius);
-  background: #333333;
+  background: rgb(39,37,40);
+  background: radial-gradient(circle, rgba(39,37,40,1) 0%, rgba(33,31,34,1) 100%);
   display: flex;
-  font-family: 'Runescape';
-  color: var(--text-color);
-  display: flex;
-  font-smooth: antialiased;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   cursor: pointer;
   margin-left: var(--left-offset);
-  box-shadow: 0px 0px 6px #CCCCCCF0;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.4);
   transition: all .2s ease-in-out;
+  margin-bottom: 15px;
+}
+
+.text {
+    margin-top: 15px;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: space-around;
+
+    font-family: 'Runescape';
+    color: var(--text-color);
+    font-smooth: antialiased;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+}
+
+.name {
+    font-size: 16px;
 }
 
 .district-button:hover{
-  background-color: #404040;
   transform: scale(1.03);
-  box-shadow: 0px 0px 7px #FFFFFF;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
 }
 
 .disabled {
@@ -56,23 +73,18 @@ html, body {
 }
 
 
-.district-button span{
-  padding-top: 10px;
-  justify-self: flex-end;
-}
-
 #root {
-  padding: 0.5rem;
-  --text-color: #ffff00;
-  --border-radius: 7px;
+  --text-color: #ffea03;
+  --border-radius: 6px;
   --left-offset: 15px;
+  --card-color: #211f22;
 }
 
 .status {
     width: 200px;
     padding: 10px;
-    background: #333333;
-    font-family: runescape;
+    background: var(--card-color);
+    font-family: 'Runescape';
     color: var(--text-color);
     margin-left: var(--left-offset);
     border-radius: var(--border-radius);
