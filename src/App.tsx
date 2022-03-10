@@ -27,6 +27,8 @@ const App: FC = () => {
         let activeDistricts = activeDistrict1.level < activeDistrict2.level ? [activeDistrict2, activeDistrict1] : [activeDistrict1, activeDistrict2];
 
         const tempDistricts: District[] = [...districts];
+        tempDistricts.sort((a, b) => a.level - b.level);
+        tempDistricts.reverse();
 
         let activeDistrictIndex1 = tempDistricts.findIndex(district => district === activeDistrict1);
             tempDistricts.splice(activeDistrictIndex1, 1);
