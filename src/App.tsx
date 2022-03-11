@@ -3,6 +3,7 @@ import { districtObj } from './districts';
 import './index.css';
 import './fonts/runescape.ttf'
 import useInterval from './hooks/useInterval';
+import useLocalStorage from './hooks/useLocalStorage';
 import Color from 'color-thief-react';
 
 interface District {
@@ -11,20 +12,23 @@ interface District {
     CTS?: number;
     disabled?: boolean;
     timeLeft?: number;
+    timestamp?: Date;
 }
 
 const App: FC = () => {
 
-    const [districts, setDistricts] = useState<District[]>(districtObj);
+    const [districts, setDistricts] = useLocalStorage("districts", districtObj);
+
     const [fetching, setFetching]   = useState<boolean>(false);
+    const [hover, setHover] = useState<number | null>(null);
 
     const fetchDistricts = async () => {
         setFetching(true);
         const response = await fetch('https://api.weirdgloop.org/runescape/vos');
         const data: any = await response.json();
 
-        let activeDistrict1: any = districts.find(district => district.name === data.district1);
-        let activeDistrict2: any = districts.find(district => district.name === data.district2);
+        let activeDistrict1: any = districts.find((district: District) => district.name === data.district1);
+        let activeDistrict2: any = districts.find((district: District) => district.name === data.district2);
         let activeDistricts = activeDistrict1.level < activeDistrict2.level ? [activeDistrict2, activeDistrict1] : [activeDistrict1, activeDistrict2];
 
         const tempDistricts: District[] = [...districts];
@@ -43,20 +47,38 @@ const App: FC = () => {
 
     const startDistrictTimer = (district: District) => {
         const districtsClone: District[] = [...districts];
-        const dave = districtsClone.map(districtItem => (districtItem.name === district.name) ? ({...districtItem, disabled: true, timeLeft: 1200 }) : districtItem)
-        setDistricts(dave);
+        const tempDistricts = districtsClone.map(districtItem =>
+            (districtItem.name === district.name) ? ({...districtItem, disabled: true, timeLeft: 1200, timestamp: new Date()}) : districtItem)
+        setDistricts(tempDistricts);
 
     }
 
+    const clearDistrictTimer = (district: District) => {
+        const districtsClone: District[] = [...districts];
+        const tempDistricts = districtsClone.map(districtItem =>
+            (districtItem.name === district.name) ? ({...districtItem, disabled: false, timeLeft: undefined, timestamp: undefined }) : districtItem)
+        setDistricts(tempDistricts);
+    }
+
     useInterval(() => {
+
         const tempDistricts: District[] = [ ...districts ];
+
         tempDistricts.map((district: District) => {
-            if (district?.timeLeft) {
-                district.timeLeft--;
-            }
-            if (district?.timeLeft === 0) {
-                district.disabled = false;
-                district.timeLeft = undefined;
+
+            if(district.disabled && district.timestamp) {
+
+                let timestamp: number = new Date(district?.timestamp).getTime();
+                let timeDifference: number = Math.abs(timestamp - new Date().getTime()) / 1000;
+
+                district.timeLeft = 1199 - Math.floor(timeDifference);
+
+                if(district.timeLeft <= 0) {
+                    district.disabled = false;
+                    district.timeLeft = undefined;
+                    district.timestamp = undefined;
+                }
+
             }
         });
         setDistricts(tempDistricts);
@@ -69,24 +91,35 @@ const App: FC = () => {
 
     useEffect(() => {
         fetchDistricts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
         <>
             <div id='districts'>
                 {districts.map((district: District, idx: number) => (
-                    <Color src={`https://runescape.wiki/images/${district.name}_Clan.png`} format="hex" crossOrigin='true'>
+                    <Color src={`https://runescape.wiki/images/${district.name}_Clan.png`} format="hex" crossOrigin='true' key={idx}>
                         {({ data, loading, error }) => (
                             <div
-                                key={idx}
                                 className={`
                                     district-button
                                     ${district.disabled ? 'disabled' : ''}
                                     ${idx < 2 ? 'seren-active' : ''}
                                 `}
                                 style={idx < 2 ? { boxShadow: `0px 0px 3px ${data}` } : {}}
-                                onClick={() => startDistrictTimer(district)}
+                                onClick={() => !district.disabled && startDistrictTimer(district)}
+                                onMouseEnter={() => setHover(idx)}
+                                onMouseLeave={() => setHover(null)}
                             >
+
+                                <div
+                                    className={`clear-button ${district.disabled && hover === idx ? 'fadeIn' : 'fadeOut'}`}
+                                    onClick={() => clearDistrictTimer(district)}
+                                >
+                                    Clear Timer
+                                </div>
+                                {/* {(district.disabled && hover === idx) &&
+                                } */}
                                 <img src={`https://runescape.wiki/images/${district.name}_Clan.png`} alt={`${district.name} District`} />
                                 <div className="text">
                                     <span className='name'>{district.name}</span>

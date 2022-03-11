@@ -67,11 +67,21 @@ html, body {
 }
 
 .disabled {
-    opacity: 0.2;
-    pointer-events: none;
+    background: rgba(39,37,40, 0.2);
+    background: radial-gradient(circle, rgba(39,37,40,0.15) 0%, rgba(33,31,34,0.15) 100%);
+    cursor: default;
+    transition: none;
+    transform: scale(1);
     box-shadow: none;
 }
 
+.disabled:hover {
+    transform: scale(1);
+    box-shadow: none;
+}
+
+.disabled img, .disabled .text{ opacity: 0.15; }
+.disabled .clear-button { pointer-events: all }
 
 #root {
   --text-color: #ffea03;
@@ -89,4 +99,24 @@ html, body {
     margin-left: var(--left-offset);
     border-radius: var(--border-radius);
     margin-top: 20px;
+}
+
+.clear-button {
+    position: absolute;
+    z-index: 99;
+    background: var(--card-color);
+    font-family: 'Runescape';
+    padding: 5px;
+    cursor: pointer;
+    color: var(--text-color);
+    border-radius: 3px;
+    transition: 0.7s;
+}
+
+.fadeOut{
+    opacity:0;
+    transition: 0.2s;
+}
+.fadeIn{
+    opacity:1;
 }
