@@ -1,122 +1,145 @@
 @font-face {
-    font-family: "Runescape";
-    src: local("Runescape"),
-      url("./fonts/runescape.ttf") format("truetype");
-    font-weight: normal;
+	font-family: 'Runescape';
+	src: local('Runescape'), url('./fonts/runescape.ttf') format('truetype');
+	font-weight: normal;
 }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0px;
-  background: #121113;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+#root {
+	--text-color: #ffea03;
+	--border-radius: 0.8rem;
+	--left-offset: 15px;
+	--card-color: radial-gradient(at center top, rgba(39, 37, 40, 0.4) 0%, rgba(33, 31, 34, 0.2) 100%);
 }
 
-#districts {
-  width: 100%;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: left;
-  padding-top: 15px;
-  padding-bottom: 15px;
+html,
+body {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	background: #060606;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-family: 'Runescape', sans-serif;
+	overflow: hidden;
 }
 
+.districts {
+	width: 100%;
+	height: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+	flex-wrap: wrap;
+	margin-top: 20px;
+}
 
 .district-button {
+	padding: 0.7rem;
+	width: 7rem;
+	min-height: 158px;
+	align-items: center;
+	border-radius: var(--border-radius);
+	border: 2px solid;
+	border-color: rgba(255, 255, 255, 0.1);
+	background: var(--card-color);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	cursor: pointer;
+	transition: all 0.2s ease-in-out;
+	cursor: pointer;
+}
 
-  padding: 11px;
-  align-items: center;
-  width: 95px;
-  border-radius: var(--border-radius);
-  background: rgb(39,37,40);
-  background: radial-gradient(circle, rgba(39,37,40,1) 0%, rgba(33,31,34,1) 100%);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  cursor: pointer;
-  margin-left: var(--left-offset);
-  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.4);
-  transition: all .2s ease-in-out;
-  margin-bottom: 15px;
+.district-button:hover {
+	transform: scale(1.03);
 }
 
 .text {
-    margin-top: 15px;
-    height: 50px;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    justify-content: space-around;
+	margin-top: 15px;
+	height: 50px;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	justify-content: space-around;
 
-    font-family: 'Runescape';
-    color: var(--text-color);
-    font-smooth: antialiased;
-    font-size: 14px;
-    letter-spacing: 0.2px;
+	font-family: 'Runescape';
+	color: var(--text-color);
+	font-smooth: antialiased;
+	font-size: 14px;
+	letter-spacing: 0.2px;
 }
 
 .name {
-    font-size: 16px;
-}
-
-.district-button:hover{
-  transform: scale(1.03);
-  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3);
+	font-size: 16px;
 }
 
 .disabled {
-    background: rgba(39,37,40, 0.2);
-    background: radial-gradient(circle, rgba(39,37,40,0.15) 0%, rgba(33,31,34,0.15) 100%);
-    cursor: default;
-    transition: none;
-    transform: scale(1);
-    box-shadow: none;
+	background: rgba(39, 37, 40, 0.2);
+	background: radial-gradient(circle, rgba(39, 37, 40, 0.15) 0%, rgba(33, 31, 34, 0.15) 100%);
+	transition: none;
+	transform: scale(1);
+	box-shadow: none;
 }
 
 .disabled:hover {
-    transform: scale(1);
-    box-shadow: none;
+	transform: scale(1);
+	box-shadow: none;
 }
 
-.disabled img, .disabled .text{ opacity: 0.15; }
-.disabled .clear-button { pointer-events: all }
-
-#root {
-  --text-color: #ffea03;
-  --border-radius: 6px;
-  --left-offset: 15px;
-  --card-color: #211f22;
+.disabled img,
+.disabled .text {
+	opacity: 0.15;
+}
+.disabled .clear-button {
+	pointer-events: all;
 }
 
 .status {
-    width: 200px;
-    padding: 10px;
-    background: var(--card-color);
-    font-family: 'Runescape';
-    color: var(--text-color);
-    margin-left: var(--left-offset);
-    border-radius: var(--border-radius);
-    margin-top: 20px;
+	width: 200px;
+	padding: 10px;
+	color: var(--text-color);
+	margin-left: var(--left-offset);
+	border-radius: var(--border-radius);
+	margin-top: 20px;
+}
+
+.history {
+	width: 100%;
+	justify-content: start;
+	flex-wrap: wrap;
+	margin-top: 20px;
+	margin-left: 3rem;
+}
+
+.history-button {
+	all: unset;
+	width: 200px;
+	color: var(--text-color);
+}
+
+table {
+	width: 100%;
+	height: 100%;
+	color: var(--text-color);
 }
 
 .clear-button {
-    position: absolute;
-    z-index: 99;
-    background: var(--card-color);
-    font-family: 'Runescape';
-    padding: 5px;
-    cursor: pointer;
-    color: var(--text-color);
-    border-radius: 3px;
-    transition: 0.7s;
+	position: absolute;
+	z-index: 99;
+	background: var(--card-color);
+	font-family: 'Runescape';
+	padding: 5px;
+	cursor: pointer;
+	color: var(--text-color);
+	border-radius: 3px;
+	transition: 0.7s;
 }
 
-.fadeOut{
-    opacity:0;
-    transition: 0.2s;
+.fadeOut {
+	opacity: 0;
+	transition: 0.2s;
 }
-.fadeIn{
-    opacity:1;
+.fadeIn {
+	opacity: 1;
 }
